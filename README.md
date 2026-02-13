@@ -39,7 +39,7 @@ The dataset is provided in **YOLO format** with separate **train / validation / 
   - `results/evidence/annotations/` — labeled (ground-truth) examples
   - `results/evidence/val_predictions/` — validation prediction examples
   - `results/evidence/new_images/` — inference results on unseen/test images
-- `weights/` — trained model weights (or link if files are too large)
+- `weights/` — trained model weights (best.pt / last.pt)
 
 ---
 
