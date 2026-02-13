@@ -87,14 +87,26 @@ Package trained weights, metrics, curves, and prediction evidence for submission
 
 ---
 
-## Reproducibility Checklist (fill after final run)
+## Reproducibility Checklist
 
-- Dataset link: Kaggle — Construction Site Safety Image Dataset (Roboflow)
-- Dataset version: TODO
-- Train/Val/Test split: TODO
-- Model variant: YOLOv8 — TODO (n/s/m)
-- Epochs: TODO
-- Image size (`imgsz`): TODO
-- Batch size: TODO
-- Ultralytics version: TODO
-- Runtime used: Google Colab (GPU)
+- Dataset link: Kaggle — Construction Site Safety Image Dataset (Roboflow)  
+  https://www.kaggle.com/datasets/snehilsanyal/construction-site-safety-image-dataset-roboflow
+- Train/Val/Test split: Train=2605, Val=114, Test=82 images
+- Model variant: YOLOv8n (yolov8n.pt)
+- Epochs: 30
+- Image size (imgsz): 640
+- Batch size: 16
+- Ultralytics version: 8.4.14
+- Runtime used: Google Colab (GPU — Tesla T4)
+
+## Final Metrics (summary)
+
+**Validation split (114 images)**
+- Precision (P): 0.863
+- Recall (R): 0.682
+- mAP@50: 0.756
+
+**Test split (82 images, unseen)**
+- Precision (P): 0.847
+- Recall (R): 0.637
+- mAP@50: 0.759
