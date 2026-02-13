@@ -19,4 +19,18 @@ Classes: see docs/class_definitions.md
 - results/ — curves and prediction evidence
 - weights/ — trained model weights link or files
 
+## Reproducibility Checklist
+
+- Dataset link: Kaggle — Construction Site Safety Image Dataset (Roboflow)
+- Dataset version: TODO
+- Train/Val split: TODO (expected 80/20)
+- Model variant: YOLOv8 — TODO (n/s/m)
+- Epochs: TODO
+- Image size (imgsz): TODO
+- Batch size: TODO
+- Ultralytics version: TODO
+- Runtime used: Google Colab (GPU expected)
+
+(Values will be finalized after training run)
+
 (More sections will be added in next steps)
