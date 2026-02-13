@@ -111,5 +111,4 @@ Package trained weights, metrics, curves, and prediction evidence for submission
 - Precision (P): 0.847
 - Recall (R): 0.637
 - mAP@50: 0.759
-- mAP@50–95 ≈ 0.43
 - mAP@50–95 ≈ TODO
