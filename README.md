@@ -8,8 +8,8 @@ Construction sites require continuous monitoring of PPE compliance and safety-re
 - Reports metrics (**Precision, Recall, mAP@50, mAP@50–95**) and exports curves/confusion matrices.
 - Evidence pack includes:
   - 3–5 annotation examples
-  - validation predictions (≥10 examples; provided as batch-collage screenshots)
-  - more than 5 new/unseen-image prediction examples
+  - validation predictions (~48 images via batch collages)
+  - +5 new/unseen-image prediction examples
 - Includes short error analysis and governance/licensing notes.
 
 ---
@@ -45,19 +45,25 @@ Label rules and definitions: `docs/class_definitions.md`
 
 ---
 
-## Results summary (metrics + takeaways)
+# 📊 Final Results Summary
 
-### Validation (114 images)
-- Precision (P): 0.863
-- Recall (R): 0.682
-- mAP@50: 0.756
-- mAP@50–95: ~0.435
+## 🟢 Train Split
+- Precision: 0.874
+- Recall: 0.712
+- mAP@50: 0.827
+- mAP@50–95: 0.622
 
-### Test (82 images, unseen)
-- Precision (P): 0.847
-- Recall (R): 0.637
+## 🔵 Validation Split
+- Precision: 0.865
+- Recall: 0.683
+- mAP@50: 0.793
+- mAP@50–95: 0.490
+
+## 🔴 Test Split (Unseen Data)
+- Precision: 0.847
+- Recall: 0.637
 - mAP@50: 0.759
-- mAP@50–95: TODO
+- mAP@50–95: 0.466
 
 **Key takeaways (2–3):**
 - Stronger performance on large/clear objects (Person, Hardhat, Safety Vest, machinery) than on small/ambiguous PPE signals (Mask/NO-Mask).
@@ -141,10 +147,6 @@ Each batch image is a collage containing **~16 validation images**, so the repo 
 
 ## Governance + licensing
 - Governance checklist: `docs/governance_checklist.md`
-- Repository license: see `LICENSE`
+- Repository license: MIT
 - Dataset rights/terms: dataset is sourced from Kaggle and is subject to Kaggle/dataset terms and licensing.
-**Test split (82 images, unseen)**
-- Precision (P): 0.847
-- Recall (R): 0.637
-- mAP@50: 0.759
-- mAP@50–95 ≈ TODO
+
