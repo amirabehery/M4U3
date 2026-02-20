@@ -1,9 +1,9 @@
 # M4U3 — Construction Site Safety Detection (YOLOv8)
 
-## AECO problem framing (short)
+## AECO problem framing
 Construction sites require continuous monitoring of PPE compliance and safety-related hazards. Manual inspection is slow and inconsistent. This project trains a YOLOv8 object detection model to detect common construction safety objects and PPE violations in images.
 
-## Success criteria (short)
+## Success criteria
 - Reproducible **cloud-only** workflow: a third party can open this repo in a browser and run the notebook in **Google Colab** (no local installs).
 - Reports metrics (**Precision, Recall, mAP@50, mAP@50–95**) and exports curves/confusion matrices.
 - Evidence pack includes:
