@@ -180,15 +180,15 @@ Google Colab (YOLOv8 Inference)
 
 **n8n Workflow:**
 
-![n8n Pipeline](results/evidence/n8n_pipeline/n8n_workflow.png)
+![n8n Pipeline](results/n8n_pipeline/n8n_workflow.png)
 
 **Safety Alert Email Received:**
 
-![Safety Alert Email](results/evidence/n8n_pipeline/email_alert.png)
+![Safety Alert Email](results/n8n_pipeline/email_alert.png)
 
 ### How to Run
 
-1. Open `notebooks/03_n8n_Safety_Alert.ipynb` in Google Colab
+1. Open `notebooks/Group1_n8n_Safety_Alert.ipynb` in Google Colab
 2. Upload `best.pt` (from `/weights/`) to the Colab session
 3. Set runtime to **GPU (T4)**
 4. Run all cells — the pipeline will automatically trigger the n8n workflow and deliver the safety alert email
