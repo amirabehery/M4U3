@@ -165,7 +165,7 @@ Google Colab (YOLOv8 Inference)
 
 ### How It Works
 
-1. **Inference** — The notebook (`notebooks/03_n8n_Safety_Alert.ipynb`) loads the trained `best.pt` model and runs inference on the 82 test images
+1. **Inference** — The notebook (`notebooks/Group1_n8n_Safety_Alert.ipynb`) loads the trained `best.pt` model and runs inference on the 82 test images
 2. **Detection Parsing** — Results are packaged as JSON with per-class counts and average confidence scores
 3. **Webhook Trigger** — The JSON payload is sent to an active n8n workflow via webhook
 4. **AI Analysis** — OpenAI GPT-4o-mini analyzes the violations and generates a professional safety report with executive summary, risk assessment, and recommended actions
