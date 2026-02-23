@@ -152,8 +152,6 @@ Each batch image is a collage containing **~16 validation images**, so the repo 
 
 ---
 
----
-
 ## 🔄 Bonus Extension (Optional): Automated Safety Alert Pipeline (n8n + OpenAI)
 
 This section is an **additional practical deployment demo** beyond the core assignment requirements (model training + evaluation + evidence pack).  
