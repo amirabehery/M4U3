@@ -138,6 +138,66 @@ Each batch image is a collage containing **~16 validation images**, so the repo 
 
 ---
 
+## 🔄 Automated Safety Alert Pipeline (n8n + OpenAI)
+
+Beyond model training and evaluation, this project includes a **production-ready deployment extension** that transforms detection results into actionable safety alerts using workflow automation and AI-powered reporting.
+
+### Architecture
+Google Colab (YOLOv8 Inference)
+→ n8n Webhook (receives detection JSON)
+→ Code Node (parse violations, compute compliance rate)
+→ OpenAI GPT-4o-mini (generate safety analysis report)
+→ SMTP Email (formatted alert to safety manager)
+
+### How It Works
+
+1. **Inference** — The notebook (`notebooks/03_n8n_Safety_Alert.ipynb`) loads the trained `best.pt` model and runs inference on the 82 test images
+2. **Detection Parsing** — Results are packaged as JSON with per-class counts and average confidence scores
+3. **Webhook Trigger** — The JSON payload is sent to an active n8n workflow via webhook
+4. **AI Analysis** — OpenAI GPT-4o-mini analyzes the violations and generates a professional safety report with executive summary, risk assessment, and recommended actions
+5. **Email Delivery** — A formatted HTML email with violation statistics and the AI-generated report is sent to the safety manager
+
+### Results (Test Set — 82 Images)
+
+| Metric | Value |
+|--------|-------|
+| Images Analyzed | 82 |
+| Total Violations | 164 |
+| Compliance Rate | 50% |
+| Alert Delivery Time | ~37 seconds end-to-end |
+
+### Technology Stack
+
+| Component | Technology |
+|-----------|------------|
+| Object Detection | YOLOv8n (Ultralytics) |
+| Workflow Automation | n8n (cloud-hosted) |
+| AI Report Generation | OpenAI GPT-4o-mini |
+| Email Delivery | SMTP (Gmail) |
+| Runtime | Google Colab (T4 GPU) |
+
+### Pipeline Evidence
+
+**n8n Workflow:**
+
+![n8n Pipeline](results/evidence/n8n_pipeline/n8n_workflow.png)
+
+**Safety Alert Email Received:**
+
+![Safety Alert Email](results/evidence/n8n_pipeline/email_alert.png)
+
+### How to Run
+
+1. Open `notebooks/03_n8n_Safety_Alert.ipynb` in Google Colab
+2. Upload `best.pt` (from `/weights/`) to the Colab session
+3. Set runtime to **GPU (T4)**
+4. Run all cells — the pipeline will automatically trigger the n8n workflow and deliver the safety alert email
+
+> **Note:** The n8n webhook must be active for the email alert to be dispatched. The notebook includes error handling for cases where the webhook is unreachable.
+
+
+---
+
 ## Docs
 - Class definitions: `docs/class_definitions.md`
 - Error analysis: `docs/error_analysis.md`
