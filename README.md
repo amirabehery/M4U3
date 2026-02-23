@@ -195,6 +195,17 @@ Google Colab (YOLOv8 Inference)
 
 > **Note:** The n8n webhook must be active for the email alert to be dispatched. The notebook includes error handling for cases where the webhook is unreachable.
 
+### Future Deployment — Fully Automated Operation
+
+The current pipeline runs on-demand from Google Colab. In a production environment, this system can be made fully autonomous:
+
+| Deployment Mode | How It Works | Use Case |
+|----------------|--------------|----------|
+| Scheduled Colab | Google Colab scheduler triggers the notebook daily at 7:00 AM | Daily site compliance report |
+| n8n Schedule Trigger | Replace webhook with n8n's built-in Schedule node — runs every hour automatically | Periodic batch monitoring |
+| Edge Deployment | Site CCTV cameras → Edge device (Jetson Nano/iPad) runs YOLOv8n → sends detections to n8n webhook every 10 minutes | Real-time site monitoring |
+
+The n8n webhook is already production-ready — any device or script that sends a POST request with detection JSON will trigger the full AI analysis and email alert pipeline. This means the system can scale from a single Colab notebook to hundreds of cameras across multiple construction sites without changing the n8n workflow.
 
 ---
 
