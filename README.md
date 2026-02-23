@@ -138,6 +138,20 @@ Each batch image is a collage containing **~16 validation images**, so the repo 
 
 ---
 
+## Docs
+- Class definitions: `docs/class_definitions.md`
+- Error analysis: `docs/error_analysis.md`
+- Governance checklist: `docs/governance_checklist.md`
+
+---
+
+## Governance + licensing
+- Governance checklist: `docs/governance_checklist.md`
+- Repository license: MIT
+- Dataset rights/terms: dataset is sourced from Kaggle and is subject to Kaggle/dataset terms and licensing.
+
+---
+
 ## 🔄 Automated Safety Alert Pipeline (n8n + OpenAI)
 
 Beyond model training and evaluation, this project includes a **production-ready deployment extension** that transforms detection results into actionable safety alerts using workflow automation and AI-powered reporting.
@@ -206,18 +220,4 @@ The current pipeline runs on-demand from Google Colab. In a production environme
 | Edge Deployment | Site CCTV cameras → Edge device (Jetson Nano/iPad) runs YOLOv8n → sends detections to n8n webhook every 10 minutes | Real-time site monitoring |
 
 The n8n webhook is already production-ready — any device or script that sends a POST request with detection JSON will trigger the full AI analysis and email alert pipeline. This means the system can scale from a single Colab notebook to hundreds of cameras across multiple construction sites without changing the n8n workflow.
-
----
-
-## Docs
-- Class definitions: `docs/class_definitions.md`
-- Error analysis: `docs/error_analysis.md`
-- Governance checklist: `docs/governance_checklist.md`
-
----
-
-## Governance + licensing
-- Governance checklist: `docs/governance_checklist.md`
-- Repository license: MIT
-- Dataset rights/terms: dataset is sourced from Kaggle and is subject to Kaggle/dataset terms and licensing.
 
