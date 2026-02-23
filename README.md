@@ -152,26 +152,46 @@ Each batch image is a collage containing **~16 validation images**, so the repo 
 
 ---
 
-## 🔄 Automated Safety Alert Pipeline (n8n + OpenAI)
+---
 
-Beyond model training and evaluation, this project includes a **production-ready deployment extension** that transforms detection results into actionable safety alerts using workflow automation and AI-powered reporting.
+## 🔄 Bonus Extension (Optional): Automated Safety Alert Pipeline (n8n + OpenAI)
 
-### Architecture
-Google Colab (YOLOv8 Inference)
-→ n8n Webhook (receives detection JSON)
-→ Code Node (parse violations, compute compliance rate)
-→ OpenAI GPT-4o-mini (generate safety analysis report)
+This section is an **additional practical deployment demo** beyond the core assignment requirements (model training + evaluation + evidence pack).  
+It shows how YOLOv8 detection outputs can be operationalized into **automated safety alerts** using workflow automation (n8n) and AI-generated reporting.
+
+### Goal
+Continuously collect **new/unseen site images** (not from the Kaggle dataset) from a designated storage location, run PPE/violation detection, and automatically send an email alert to a safety manager with a clear summary and recommended actions.
+
+---
+
+### Architecture (Drive → Inference → Alert)
+Google Drive (site images folder)  
+→ Google Colab (YOLOv8 inference using `best.pt`)  
+→ n8n Webhook (receives detection JSON)  
+→ n8n Code Node (parse violations, compute compliance rate)  
+→ OpenAI GPT-4o-mini (generate safety analysis report)  
 → SMTP Email (formatted alert to safety manager)
 
+---
+
+### Source of New/Unseen Images (Site Capture → Drive)
+New/unseen images are collected from the construction site and placed into a monitored **Google Drive folder** (e.g., uploaded from a supervisor phone, exported CCTV snapshots, or an edge device).  
+The notebook reads the latest images from this Drive folder, runs YOLOv8 inference, and sends the aggregated detection/violation results to n8n for alerting.
+
+---
+
 ### How It Works
+1. **Image Intake (Drive)** — The notebook mounts Google Drive and loads images from a configured folder path (site uploads).
+2. **Inference** — The notebook (`notebooks/Group1_n8n_Safety_Alert.ipynb`) loads the trained `best.pt` model and runs inference on the Drive folder images.
+3. **Detection Parsing** — Results are packaged as JSON with per-class counts and (optionally) average confidence scores.
+4. **Webhook Trigger** — The JSON payload is sent to an active n8n workflow via webhook.
+5. **AI Analysis** — OpenAI GPT-4o-mini generates a professional safety report (executive summary, risks, recommended actions).
+6. **Email Delivery** — A formatted HTML email containing violation statistics + the AI-generated report is sent to the safety manager.
 
-1. **Inference** — The notebook (`notebooks/Group1_n8n_Safety_Alert.ipynb`) loads the trained `best.pt` model and runs inference on the 82 test images
-2. **Detection Parsing** — Results are packaged as JSON with per-class counts and average confidence scores
-3. **Webhook Trigger** — The JSON payload is sent to an active n8n workflow via webhook
-4. **AI Analysis** — OpenAI GPT-4o-mini analyzes the violations and generates a professional safety report with executive summary, risk assessment, and recommended actions
-5. **Email Delivery** — A formatted HTML email with violation statistics and the AI-generated report is sent to the safety manager
+---
 
-### Results (Test Set — 82 Images)
+### Results (Demo Run)
+If running the demo on the dataset test split (82 images), the pipeline produced:
 
 | Metric | Value |
 |--------|-------|
@@ -180,44 +200,67 @@ Google Colab (YOLOv8 Inference)
 | Compliance Rate | 50% |
 | Alert Delivery Time | ~37 seconds end-to-end |
 
-### Technology Stack
+> Note: In real site operation, the “Images Analyzed” count depends on how many new images are present in the Drive folder for that run.
 
+---
+
+### Technology Stack
 | Component | Technology |
 |-----------|------------|
 | Object Detection | YOLOv8n (Ultralytics) |
 | Workflow Automation | n8n (cloud-hosted) |
 | AI Report Generation | OpenAI GPT-4o-mini |
-| Email Delivery | SMTP (Gmail) |
+| Email Delivery | SMTP (e.g., Gmail) |
 | Runtime | Google Colab (T4 GPU) |
+| New Image Source | Google Drive folder (site uploads) |
 
-### Pipeline Evidence
+---
 
+### Pipeline Evidence (Screenshots)
 **n8n Workflow:**
+![n8n Workflow](results/n8n_pipeline/n8n_workflow.png)
 
-![n8n Pipeline](results/n8n_pipeline/n8n_workflow.png)
-
-**Safety Alert Email Received:**
-
+**Safety Alert Email (PII redacted):**
 ![Safety Alert Email](results/n8n_pipeline/email_alert.png)
 
-### How to Run
+> IMPORTANT: Before committing screenshots to the repo, **crop or blur any personal information (PII)** such as email addresses, names, or message headers.
 
-1. Open `notebooks/Group1_n8n_Safety_Alert.ipynb` in Google Colab
-2. Upload `best.pt` (from `/weights/`) to the Colab session
-3. Set runtime to **GPU (T4)**
-4. Run all cells — the pipeline will automatically trigger the n8n workflow and deliver the safety alert email
+---
 
-> **Note:** The n8n webhook must be active for the email alert to be dispatched. The notebook includes error handling for cases where the webhook is unreachable.
+### How to Run (Optional Pipeline)
+1. **Prepare images (Drive)**  
+   Upload new site images into your designated Google Drive folder (e.g., `MyDrive/site_safety_inbox/`).
+
+2. **Open the notebook**  
+   Open `notebooks/Group1_n8n_Safety_Alert.ipynb` in Google Colab.
+
+3. **Mount Drive + set folder path**  
+   Mount Google Drive in Colab and set a variable such as `SITE_IMAGES_DIR` to your site images folder path.
+
+4. **Load weights**  
+   Upload/use `best.pt` (from `/weights/`) inside the Colab session (or load directly from Drive if stored there).
+
+5. **Run all cells**  
+   The notebook will:
+   - run inference on the Drive folder images,
+   - send detection JSON to the n8n webhook,
+   - trigger the AI report generation step,
+   - email the safety alert.
+
+> Note: The n8n webhook must be active for the email alert to be dispatched. The notebook includes error handling for cases where the webhook is unreachable.
+
+---
 
 ### Future Deployment — Fully Automated Operation
-
-The current pipeline runs on-demand from Google Colab. In a production environment, this system can be made fully autonomous:
+The current pipeline runs on-demand from Google Colab. In a production environment, this can be made fully autonomous:
 
 | Deployment Mode | How It Works | Use Case |
 |----------------|--------------|----------|
-| Scheduled Colab | Google Colab scheduler triggers the notebook daily at 7:00 AM | Daily site compliance report |
-| n8n Schedule Trigger | Replace webhook with n8n's built-in Schedule node — runs every hour automatically | Periodic batch monitoring |
-| Edge Deployment | Site CCTV cameras → Edge device (Jetson Nano/iPad) runs YOLOv8n → sends detections to n8n webhook every 10 minutes | Real-time site monitoring |
+| Scheduled Colab | Colab scheduler triggers the notebook daily (e.g., 7:00 AM) | Daily site compliance report |
+| n8n Schedule Trigger | n8n schedule runs hourly and pulls latest Drive images | Periodic batch monitoring |
+| Edge Deployment | CCTV → edge device runs YOLO → sends results/images to Drive/webhook | Near real-time monitoring |
 
-The n8n webhook is already production-ready — any device or script that sends a POST request with detection JSON will trigger the full AI analysis and email alert pipeline. This means the system can scale from a single Colab notebook to hundreds of cameras across multiple construction sites without changing the n8n workflow.
+This extension demonstrates how the trained model can scale from notebook-based inference to automated alerts across multiple sites by standardizing the input source (Drive folder) and sending structured detection summaries to n8n.
+
+---
 
